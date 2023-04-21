@@ -1,0 +1,48 @@
+<div class="container">
+    <h1 *ngIf="loan.id == null">Crear préstamo</h1>
+    <h1 *ngIf="loan.id != null">Modificar préstamo</h1>
+
+    <form>
+        <mat-form-field>
+            <mat-label>Identificador</mat-label>
+            <input type="text" matInput placeholder="Identificador" [(ngModel)]="loan.id" name="id" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Nombre del juego</mat-label>
+            <mat-select disableRipple [(ngModel)]="loan.game" name="title" required>
+                <mat-option *ngFor="let game of games" [value]="game">{{game.title}}</mat-option>
+            </mat-select>
+            <mat-error>El juego no puede estar vacío</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Cliente</mat-label>
+            <mat-select disableRipple [(ngModel)]="loan.client" name="name" required>
+                <mat-option *ngFor="let client of clients" [value]="client">{{client.name}}</mat-option>
+            </mat-select>
+            <mat-error>El cliente no puede estar vacío</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Fecha de préstamo</mat-label>
+            <input matInput [matDatepicker]="loanDatepicker" placeholder="dd/MM/yyyy" [(ngModel)]="loan.loanDate" name="loanDate">
+            <mat-datepicker-toggle matSuffix [for]="loanDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #loanDatepicker></mat-datepicker>
+            <mat-error>La fecha de préstamo no debe estar vacía</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Fecha de préstamo</mat-label>
+            <input matInput [matDatepicker]="returnDatepicker" placeholder="dd/MM/yyyy" [(ngModel)]="loan.returnDate"  name="returnDate" [matDatepickerFilter]="dateFilter">
+            <mat-datepicker-toggle matSuffix [for]="returnDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #returnDatepicker></mat-datepicker>
+            <mat-error>La fecha de retorno no debe estar vacía</mat-error>
+        </mat-form-field>
+    </form>
+
+    <div class="buttons">
+        <button mat-stroked-button (click)="onClose()">Cerrar</button>
+        <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+    </div>
+</div>
