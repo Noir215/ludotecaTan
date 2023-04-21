@@ -53,6 +53,12 @@ export const createLoan = async (data) => {
             throw Error('This game is already loaned');
         }
 
+        const dateDiff = new Date(data.returnDate) - new Date(data.loanDate);
+        const daysDiff = dateDiff / (1000 * 60 * 60 * 24); 
+        if (daysDiff > 14 || daysDiff < 0) {
+            throw Error('The return date cannot be more than 14 days after the loan date o less than 0');
+        }
+
         const loan = new LoanModel({
             game: data.game.id,
             client: data.client.id,
@@ -81,6 +87,12 @@ export const updateLoan = async (id, data) => {
         const client = await getClientById(data.client.id);
         if (!client) {
             throw Error('There is no client with that id');
+        }
+
+        const dateDiff = new Date(data.returnDate) - new Date(data.loanDate);
+        const daysDiff = dateDiff / (1000 * 60 * 60 * 24); 
+        if (daysDiff > 14 || daysDiff < 0) {
+            throw Error('The return date cannot be more than 14 days after the loan date o less than 0');
         }
 
         const loanToUpdate = {
